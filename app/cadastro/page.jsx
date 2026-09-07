@@ -6,7 +6,7 @@ import FormularioCadastro from "./formulario-cadastro";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Criar cadastro — Meu CRM",
+  title: "Criar cadastro — WireCRM",
 };
 
 export default async function PaginaDeCadastro() {

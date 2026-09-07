@@ -8,7 +8,7 @@ import ContatoItem from "../../contato-item";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Contatos — Meu CRM",
+  title: "Contatos — WireCRM",
 };
 
 // Data por extenso, no fuso do Brasil. A formatação acontece aqui, no

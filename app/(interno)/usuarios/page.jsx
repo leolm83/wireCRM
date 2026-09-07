@@ -5,7 +5,7 @@ import BotaoAprovar from "./botao-aprovar";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Usuários — Meu CRM",
+  title: "Usuários — WireCRM",
 };
 
 const FORMATO_DE_DATA = new Intl.DateTimeFormat("pt-BR", {

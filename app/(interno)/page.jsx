@@ -22,7 +22,7 @@ export default async function PaginaInicial() {
     return (
       <main className="pagina">
         <header className="cabecalho">
-          <h1>Meu CRM</h1>
+          <h1>WireCRM</h1>
         </header>
         <div className="aviso">Não consegui buscar os números no banco.</div>
       </main>
@@ -42,7 +42,7 @@ export default async function PaginaInicial() {
   return (
     <main className="pagina">
       <header className="cabecalho">
-        <h1>Meu CRM</h1>
+        <h1>WireCRM</h1>
         <p className="apoio">Onde está cada oportunidade agora.</p>
       </header>
 

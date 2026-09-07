@@ -12,7 +12,7 @@ const manrope = Manrope({
 
 // Título que aparece na aba do navegador.
 export const metadata = {
-  title: "Meu CRM",
+  title: "WireCRM",
   description: "Contatos e oportunidades de negócio em um só lugar.",
 };
 

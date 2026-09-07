@@ -6,7 +6,7 @@ import FormularioLogin from "./formulario-login";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Entrar — Meu CRM",
+  title: "Entrar — WireCRM",
 };
 
 export default async function PaginaLogin() {
@@ -19,7 +19,7 @@ export default async function PaginaLogin() {
   return (
     <main className="pagina-login">
       <div className="cartao cartao-login">
-        <h1>Meu CRM</h1>
+        <h1>WireCRM</h1>
         <p className="apoio">Entre para continuar.</p>
 
         <FormularioLogin />
