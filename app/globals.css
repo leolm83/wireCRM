@@ -1,0 +1,953 @@
+/* ==========================================================================
+   Identidade visual — os valores vêm do design.md.
+   Nenhuma tela deve escrever cor, fonte ou raio "na mão".
+   Sempre usar as variáveis abaixo.
+   ========================================================================== */
+
+:root {
+  /* Base */
+  --fundo: #fafaf7;
+  --superficie: #ffffff;
+  --borda: #e6e4de;
+  --texto: #17181c;
+  --texto-apoio: #6b6e76;
+
+  /* Destaque — a ÚNICA cor de marca */
+  --destaque: #1d4ed8;
+  --destaque-hover: #1e40af;
+
+  /* Etapas do funil — usar SÓ nas etiquetas de etapa */
+  --etapa-novo: #64748b;
+  --etapa-em-contato: #d97706;
+  --etapa-proposta: #7c3aed;
+  --etapa-cliente: #15803d;
+
+  /* ATENÇÃO: estas cores NÃO estão no design.md. Foram acrescentadas para
+     mensagens de erro e para a ação de excluir. Decidir se documenta ou
+     se remove. */
+  --erro: #b42318;
+  --erro-hover: #93190f;
+
+  /* Formas */
+  --raio: 10px;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--fundo);
+  color: var(--texto);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+p {
+  margin: 0;
+}
+
+/* ==========================================================================
+   Barra de navegação
+   ========================================================================== */
+
+.navbar {
+  background-color: var(--superficie);
+  border-bottom: 1px solid var(--borda);
+}
+
+.navbar-conteudo {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 32px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+
+.navbar-link {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--texto-apoio);
+  text-decoration: none;
+}
+
+.navbar-link:hover {
+  color: var(--texto);
+}
+
+/* A página em que você está agora */
+.navbar-link.ativo {
+  color: var(--destaque);
+}
+
+.navbar-direita {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.navbar-usuario {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--texto-apoio);
+}
+
+.etiqueta-papel {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--destaque);
+  border: 1px solid var(--destaque);
+  border-radius: var(--raio);
+  padding: 2px 7px;
+}
+
+/* ==========================================================================
+   Layout da página
+   ========================================================================== */
+
+.pagina {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 56px 32px 120px;
+}
+
+.cabecalho {
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--borda);
+  margin-bottom: 40px;
+}
+
+/* Título à esquerda, "Sair" à direita */
+.cabecalho-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.cabecalho h1 {
+  font-size: 44px;
+  font-weight: 800;
+}
+
+.cabecalho .apoio {
+  margin-top: 12px;
+  font-size: 19px;
+}
+
+/* Texto secundário: legendas, descrições, apoio */
+.apoio {
+  color: var(--texto-apoio);
+  font-weight: 400;
+}
+
+/* ==========================================================================
+   Painel do funil
+   ========================================================================== */
+
+.painel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.painel-total,
+.painel-etapa {
+  background-color: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 28px;
+}
+
+.painel-rotulo {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--texto-apoio);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.painel-numero-total {
+  margin-top: 8px;
+  font-size: 72px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.painel-etapas {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.painel-numero {
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.painel-etapa .painel-rotulo {
+  margin-top: 10px;
+}
+
+/* A cor de cada etapa aparece no número. O design.md reserva estas cores
+   para as etiquetas de etapa — aqui elas identificam a mesma etapa, em
+   números grandes, sem virar fundo colorido. */
+.numero-novo {
+  color: var(--etapa-novo);
+}
+
+.numero-em-contato {
+  color: var(--etapa-em-contato);
+}
+
+.numero-proposta {
+  color: var(--etapa-proposta);
+}
+
+.numero-cliente {
+  color: var(--etapa-cliente);
+}
+
+/* ==========================================================================
+   Superfícies
+   ========================================================================== */
+
+.cartao {
+  background-color: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 28px;
+}
+
+.cartao h2 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   Tela de login
+   ========================================================================== */
+
+.pagina-login {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
+.cartao-login {
+  width: 100%;
+  max-width: 400px;
+  padding: 36px;
+}
+
+.cartao-login h1 {
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.cartao-login .apoio {
+  margin-top: 8px;
+  font-size: 16px;
+}
+
+.formulario-login {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.formulario-login .botao {
+  width: 100%;
+}
+
+/* Campo com um botão encostado por dentro, à direita */
+.campo-com-botao {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Espaço para o botão não passar por cima do que foi digitado */
+.campo-com-botao input {
+  padding-right: 88px;
+}
+
+.botao-mostrar {
+  position: absolute;
+  right: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--texto-apoio);
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+}
+
+.botao-mostrar:hover {
+  color: var(--destaque);
+}
+
+/* Link entre a tela de login e a de cadastro */
+.troca-de-tela {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--borda);
+  font-size: 15px;
+  color: var(--texto-apoio);
+  text-align: center;
+}
+
+.troca-de-tela a {
+  color: var(--destaque);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.troca-de-tela a:hover {
+  color: var(--destaque-hover);
+  text-decoration: underline;
+}
+
+/* Confirmação depois de criar o cadastro */
+.cadastro-enviado {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cadastro-enviado-titulo {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+/* Um link com cara de botão */
+.botao-link {
+  display: inline-block;
+  margin-top: 8px;
+  text-align: center;
+  text-decoration: none;
+}
+
+/* ==========================================================================
+   Área de usuários
+   ========================================================================== */
+
+.form-aprovar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.etiqueta-admin {
+  color: var(--destaque);
+  border-color: var(--destaque);
+}
+
+.etiqueta-comum {
+  color: var(--texto-apoio);
+  border-color: var(--borda);
+}
+
+.marca-voce {
+  margin-left: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--texto-apoio);
+}
+
+/* ==========================================================================
+   Formulário
+   ========================================================================== */
+
+.formulario {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.campo-largo {
+  grid-column: 1 / -1;
+}
+
+.campo label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--texto-apoio);
+}
+
+.campo input {
+  font-family: inherit;
+  font-size: 16px;
+  color: var(--texto);
+  background-color: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 12px 14px;
+  width: 100%;
+}
+
+.campo input:focus {
+  outline: none;
+  border-color: var(--destaque);
+}
+
+/* Campo com problema: a borda muda junto com a mensagem, para o erro
+   ser visível mesmo de relance. */
+.campo input[aria-invalid="true"] {
+  border-color: var(--erro);
+}
+
+/* Mensagem embaixo de um campo específico */
+.erro-campo {
+  color: var(--erro);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* Mensagem geral do formulário (falha ao gravar no banco) */
+.erro {
+  color: var(--erro);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.botao {
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  background-color: var(--destaque);
+  border: 1px solid var(--destaque);
+  border-radius: var(--raio);
+  padding: 12px 22px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.botao:hover {
+  background-color: var(--destaque-hover);
+  border-color: var(--destaque-hover);
+}
+
+.botao:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+/* Versão menor, para dentro de uma anotação */
+.botao-pequeno {
+  font-size: 15px;
+  padding: 9px 18px;
+}
+
+/* Botão de recuo: superfície com borda, sem peso visual */
+.botao-secundario {
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--texto);
+  background-color: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.botao-secundario:hover {
+  border-color: var(--texto-apoio);
+}
+
+/* Botão de ação destrutiva (usa a cor de erro, fora do design.md) */
+.botao-perigo {
+  background-color: var(--erro);
+  border-color: var(--erro);
+}
+
+.botao-perigo:hover {
+  background-color: var(--erro-hover);
+  border-color: var(--erro-hover);
+}
+
+/* ==========================================================================
+   Lista de contatos
+   ========================================================================== */
+
+.secao-lista {
+  margin-top: 56px;
+}
+
+.secao-lista h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.lista-contatos {
+  background-color: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+}
+
+.contato + .contato {
+  border-top: 1px solid var(--borda);
+}
+
+.contato-linha {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 20px 24px;
+}
+
+.contato-direita {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-shrink: 0;
+}
+
+/* Botão discreto, sem fundo — para não competir com "Salvar contato" */
+.botao-texto {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--destaque);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.botao-texto:hover {
+  color: var(--destaque-hover);
+  text-decoration: underline;
+}
+
+.contato-nome {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.contato-dados {
+  margin-top: 2px;
+  font-size: 15px;
+  color: var(--texto-apoio);
+}
+
+/* Etiqueta de etapa — único lugar onde as cores do funil aparecem */
+.etiqueta {
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border: 1px solid;
+  border-radius: var(--raio);
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   Seletor de etapa — a etiqueta que também muda a etapa
+   ========================================================================== */
+
+.etapa-controle {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.seletor-etapa {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* currentColor faz o texto e a borda seguirem a cor da etapa, que é
+   definida na classe do elemento pai. */
+.seletor-etapa select {
+  appearance: none;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: currentColor;
+  background: none;
+  border: 1px solid currentColor;
+  border-radius: var(--raio);
+  padding: 5px 28px 5px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.seletor-etapa select:focus {
+  outline: 2px solid var(--destaque);
+  outline-offset: 2px;
+}
+
+.seletor-etapa select:disabled {
+  cursor: default;
+}
+
+/* Setinha desenhada com bordas, sem imagem nem caractere, para seguir
+   a cor da etapa junto com o resto. */
+.seletor-etapa::after {
+  content: "";
+  position: absolute;
+  right: 11px;
+  width: 5px;
+  height: 5px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  pointer-events: none;
+}
+
+/* Enquanto grava, o controle esmaece — sinal de que ainda não terminou. */
+.seletor-etapa.salvando {
+  opacity: 0.5;
+}
+
+.etapa-novo {
+  color: var(--etapa-novo);
+  border-color: var(--etapa-novo);
+}
+
+.etapa-em-contato {
+  color: var(--etapa-em-contato);
+  border-color: var(--etapa-em-contato);
+}
+
+.etapa-proposta {
+  color: var(--etapa-proposta);
+  border-color: var(--etapa-proposta);
+}
+
+.etapa-cliente {
+  color: var(--etapa-cliente);
+  border-color: var(--etapa-cliente);
+}
+
+/* ==========================================================================
+   Anotações de um contato (área que abre embaixo dele)
+   ========================================================================== */
+
+.anotacoes {
+  /* O tom quente do fundo separa a área aberta do cartão branco,
+     sem precisar de sombra nem de cor nova. */
+  background-color: var(--fundo);
+  border-top: 1px solid var(--borda);
+  padding: 24px;
+}
+
+.sem-anotacoes {
+  font-size: 15px;
+}
+
+.lista-anotacoes {
+  list-style: none;
+  margin: 0 0 24px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.anotacao {
+  background-color: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 16px 18px;
+}
+
+/* Data à esquerda, ações à direita */
+.anotacao-topo {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.anotacao-data {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--texto-apoio);
+}
+
+.anotacao-acoes {
+  display: flex;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+/* Editar e Excluir ficam apagados até o mouse chegar perto: são ações
+   de apoio, não devem competir com o conteúdo da anotação. */
+.botao-texto.discreto {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--texto-apoio);
+}
+
+.botao-texto.discreto:hover {
+  color: var(--destaque);
+}
+
+.anotacao-texto {
+  margin-top: 6px;
+  font-size: 16px;
+  /* Preserva as quebras de linha que a pessoa digitou. */
+  white-space: pre-wrap;
+}
+
+/* Edição no lugar da anotação */
+.formulario-edicao {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.formulario-edicao textarea {
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--texto);
+  background-color: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 12px 14px;
+  width: 100%;
+  resize: vertical;
+}
+
+.formulario-edicao textarea:focus {
+  outline: none;
+  border-color: var(--destaque);
+}
+
+.acoes-edicao {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.formulario-anotacao {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rotulo-anotacao {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--texto-apoio);
+}
+
+.formulario-anotacao textarea {
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--texto);
+  background-color: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 12px 14px;
+  width: 100%;
+  resize: vertical;
+}
+
+.formulario-anotacao textarea:focus {
+  outline: none;
+  border-color: var(--destaque);
+}
+
+/* ==========================================================================
+   Janela de confirmação
+   ========================================================================== */
+
+.confirmacao {
+  max-width: 440px;
+  width: calc(100% - 40px);
+  margin: auto;
+  background-color: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 28px;
+  color: var(--texto);
+}
+
+/* O véu atrás da janela é o próprio grafite do texto, transparente.
+   Sem desfoque: o design.md proíbe efeito de vidro. */
+.confirmacao::backdrop {
+  background-color: rgba(23, 24, 28, 0.45);
+}
+
+.confirmacao h3 {
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.confirmacao .apoio {
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.confirmacao .erro-campo {
+  margin-top: 14px;
+}
+
+.confirmacao-acoes {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+/* ==========================================================================
+   Follow-up escrito pela IA
+   ========================================================================== */
+
+.followup {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--borda);
+}
+
+.followup-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.followup-escrevendo {
+  margin-top: 14px;
+  font-size: 15px;
+  color: var(--texto-apoio);
+}
+
+.followup-resultado {
+  margin-top: 14px;
+  background-color: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 18px;
+}
+
+.followup-mensagem {
+  font-size: 16px;
+  line-height: 1.6;
+  /* Preserva as quebras de linha que a IA escrever. */
+  white-space: pre-wrap;
+}
+
+.followup-acoes {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--borda);
+}
+
+.followup-copiado {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--texto-apoio);
+}
+
+/* Lista vazia ou erro de busca */
+.aviso {
+  background-color: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 24px;
+  color: var(--texto-apoio);
+  font-size: 16px;
+}
+
+/* ==========================================================================
+   Telas estreitas
+   ========================================================================== */
+
+@media (max-width: 640px) {
+  .pagina {
+    padding: 48px 20px 80px;
+  }
+
+  .cabecalho h1 {
+    font-size: 34px;
+  }
+
+  .formulario {
+    grid-template-columns: 1fr;
+  }
+
+  .contato-linha {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .painel-etapas {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .painel-numero-total {
+    font-size: 56px;
+  }
+}
