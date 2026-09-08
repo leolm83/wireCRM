@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { exigirSessao } from "@/lib/sessao";
 import { supabase } from "@/lib/supabase";
 import { tempoDesde } from "@/lib/tempo";
 
@@ -6,7 +7,7 @@ import { tempoDesde } from "@/lib/tempo";
 // nome, email, telefone e etapa. Anotações, os follow-ups guardados e a
 // busca são o item 2 da v2 e entram aqui depois.
 //
-// A proteção fica no layout de (interno) — esta página já nasce protegida.
+// A sessão é conferida na própria função, logo abaixo.
 export const dynamic = "force-dynamic";
 
 const CLASSE_DA_ETAPA = {
@@ -26,19 +27,37 @@ export async function generateMetadata({ params }) {
 
 async function buscarContato(idBruto) {
   const id = Number(idBruto);
-  // Endereço com letra no lugar do número não vai ao banco: já não existe.
-  if (!Number.isInteger(id) || id <= 0) return null;
 
-  const { data } = await supabase
+  // O endereço vem da barra do navegador, então pode vir qualquer coisa.
+  // Só um inteiro positivo e de tamanho normal vai ao banco: letra, vírgula
+  // e número absurdo já não existem, e não vale gastar uma consulta com eles.
+  // (isSafeInteger, e não isInteger: 1e21 passa por inteiro e o banco recusa.)
+  if (!Number.isSafeInteger(id) || id <= 0) return null;
+
+  const { data, error } = await supabase
     .from("contatos")
     .select("id, nome, email, telefone, etapa, criado_em")
     .eq("id", id)
     .maybeSingle();
 
+  // Falha do banco não é a mesma coisa que contato inexistente. As duas
+  // levam à mesma tela de não encontrado, mas só uma precisa aparecer no
+  // log do servidor para alguém poder investigar.
+  if (error) {
+    console.error("Erro ao buscar contato:", error);
+    return null;
+  }
+
   return data ?? null;
 }
 
 export default async function PaginaDoContato({ params }) {
+  // Confere a sessão aqui, na própria tela, e não só no layout de (interno).
+  // O layout do Next não é redesenhado quando se navega de uma tela para
+  // outra vizinha — então confiar só nele deixaria esta tela abrir com a
+  // sessão já vencida. Uma linha aqui fecha essa brecha.
+  await exigirSessao();
+
   const { id } = await params;
   const contato = await buscarContato(id);
 

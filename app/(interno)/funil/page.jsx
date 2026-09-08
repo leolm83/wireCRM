@@ -4,8 +4,8 @@ import { tempoDesde } from "@/lib/tempo";
 import QuadroFunil from "../../quadro-funil";
 
 // O funil como quadro: uma coluna por etapa, um cartão por contato.
-// A proteção fica no layout desta pasta — toda página aqui dentro já
-// exige sessão antes de rodar.
+// A tela confere a sessão por conta própria, logo abaixo; o layout de
+// (interno) confere também, como segunda camada.
 export const dynamic = "force-dynamic";
 
 export const metadata = {

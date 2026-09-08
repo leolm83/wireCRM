@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { exigirSessao } from "@/lib/sessao";
 import { supabase } from "@/lib/supabase";
 import { tempoDesde } from "@/lib/tempo";
 
@@ -22,6 +23,12 @@ const ETAPAS = [
 const QUANTOS_RECENTES = 5;
 
 export default async function PaginaInicial() {
+  // Confere a sessão aqui, na própria tela, e não só no layout de (interno).
+  // O layout do Next não é redesenhado quando se navega de uma tela para
+  // outra vizinha — então confiar só nele deixaria esta tela abrir com a
+  // sessão já vencida. Uma linha aqui fecha essa brecha.
+  await exigirSessao();
+
   // Uma consulta serve as três áreas: a contagem, o gráfico e a lista dos
   // últimos. São poucos campos — se um dia forem milhares de contatos, vale
   // trocar a contagem por uma feita pelo banco.
