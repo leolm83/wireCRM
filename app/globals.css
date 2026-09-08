@@ -6,30 +6,38 @@
 
 :root {
   /* Base */
-  --fundo: #fafaf7;
-  --superficie: #ffffff;
-  --borda: #e6e4de;
-  --texto: #17181c;
-  --texto-apoio: #6b6e76;
+  --fundo: #0d1117;
+  --superficie: #151b24;
+  --superficie-elevada: #1b222e;
+  --borda: #262f3d;
+  --texto: #e6eaf2;
+  --texto-apoio: #9aa4b8;
 
   /* Destaque — a ÚNICA cor de marca */
-  --destaque: #1d4ed8;
-  --destaque-hover: #1e40af;
+  --destaque: #4dbdff;
+  --destaque-hover: #6ba1ff;
+  --destaque-fundo: #16283a;
 
-  /* Etapas do funil — usar SÓ nas etiquetas de etapa */
-  --etapa-novo: #64748b;
-  --etapa-em-contato: #d97706;
-  --etapa-proposta: #7c3aed;
-  --etapa-cliente: #15803d;
+  /* Texto que fica POR CIMA de cor cheia (azul ou vermelho). O branco não
+     serve: sobre o azul elétrico ele fica em 2,1:1. Ver design.md. */
+  --sobre-cor-cheia: #0d1117;
 
-  /* ATENÇÃO: estas cores NÃO estão no design.md. Foram acrescentadas para
-     mensagens de erro e para a ação de excluir. Decidir se documenta ou
-     se remove. */
-  --erro: #b42318;
-  --erro-hover: #93190f;
+  /* Etapas do funil — usar SÓ para identificar a etapa */
+  --etapa-novo: #8b99ad;
+  --etapa-em-contato: #f5a524;
+  --etapa-proposta: #a78bfa;
+  --etapa-cliente: #34d399;
+
+  /* Erro e ação destrutiva */
+  --erro: #fb7171;
+  --erro-hover: #f45151;
 
   /* Formas */
   --raio: 10px;
+
+  /* Avisa ao navegador que o sistema é escuro. Sem isto, a barra de rolagem,
+     a lista que abre no <select> e os controles nativos saem claros. */
+  color-scheme: dark;
 }
 
 /* ==========================================================================
@@ -51,6 +59,9 @@ body {
 body {
   background-color: var(--fundo);
   color: var(--texto);
+  /* A Manrope é a fonte de tudo. A monoespaçada entra só onde o CSS
+     pedir por ela — ver a classe .mono e o design.md. */
+  font-family: var(--fonte);
   font-size: 17px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -68,55 +79,57 @@ p {
   margin: 0;
 }
 
-/* ==========================================================================
-   Barra de navegação
-   ========================================================================== */
-
-.navbar {
-  background-color: var(--superficie);
-  border-bottom: 1px solid var(--borda);
+/* Texto secundário: legendas, descrições, apoio */
+.apoio {
+  color: var(--texto-apoio);
+  font-weight: 400;
 }
 
-.navbar-conteudo {
-  max-width: 880px;
-  margin: 0 auto;
-  padding: 0 32px;
+/* O toque técnico: monoespaçada em número, contador, etiqueta e carimbo
+   de data. Frase corrida nunca leva esta classe. */
+.mono {
+  font-family: var(--fonte-mono);
+}
+
+/* ==========================================================================
+   Shell da aplicação — cabeçalho no topo, navegação à esquerda,
+   conteúdo à direita. A moldura não muda; as telas mudam dentro dela.
+   ========================================================================== */
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.cabecalho-app {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--superficie);
+  border-bottom: 1px solid var(--borda);
   height: 60px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
+  padding: 0 24px;
 }
 
-.navbar-links {
-  display: flex;
-  align-items: center;
-  gap: 26px;
+.marca {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
-.navbar-link {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--texto-apoio);
-  text-decoration: none;
-}
-
-.navbar-link:hover {
-  color: var(--texto);
-}
-
-/* A página em que você está agora */
-.navbar-link.ativo {
-  color: var(--destaque);
-}
-
-.navbar-direita {
+.cabecalho-app-direita {
   display: flex;
   align-items: center;
   gap: 18px;
 }
 
-.navbar-usuario {
+.usuario-logado {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -125,7 +138,9 @@ p {
   color: var(--texto-apoio);
 }
 
+/* Etiqueta técnica: o papel de quem está logado */
 .etiqueta-papel {
+  font-family: var(--fonte-mono);
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
@@ -136,44 +151,81 @@ p {
   padding: 2px 7px;
 }
 
+/* A linha que contém a navegação e o conteúdo */
+.app-corpo {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+}
+
+.lateral {
+  width: 216px;
+  flex-shrink: 0;
+  background-color: var(--superficie);
+  border-right: 1px solid var(--borda);
+  padding: 20px 14px;
+}
+
+/* Acompanha a rolagem: a navegação continua à vista em lista comprida. */
+.lateral-nav {
+  position: sticky;
+  top: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lateral-link {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--texto-apoio);
+  text-decoration: none;
+  border-radius: var(--raio);
+  padding: 10px 14px;
+}
+
+.lateral-link:hover {
+  color: var(--texto);
+  background-color: var(--superficie-elevada);
+}
+
+/* A área em que você está agora */
+.lateral-link.ativo {
+  color: var(--destaque);
+  background-color: var(--destaque-fundo);
+}
+
+.conteudo {
+  flex: 1;
+  /* Sem isto, uma tabela ou lista larga empurra a navegação para fora. */
+  min-width: 0;
+}
+
 /* ==========================================================================
-   Layout da página
+   Layout da página — cada área é uma tela cheia dentro do conteúdo
    ========================================================================== */
 
 .pagina {
-  max-width: 880px;
+  max-width: 1040px;
   margin: 0 auto;
-  padding: 56px 32px 120px;
+  padding: 48px 40px 100px;
 }
 
 .cabecalho {
-  padding-bottom: 40px;
+  padding-bottom: 36px;
   border-bottom: 1px solid var(--borda);
   margin-bottom: 40px;
 }
 
-/* Título à esquerda, "Sair" à direita */
-.cabecalho-topo {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-}
-
 .cabecalho h1 {
-  font-size: 44px;
+  font-size: 40px;
   font-weight: 800;
 }
 
 .cabecalho .apoio {
   margin-top: 12px;
   font-size: 19px;
-}
-
-/* Texto secundário: legendas, descrições, apoio */
-.apoio {
-  color: var(--texto-apoio);
-  font-weight: 400;
 }
 
 /* ==========================================================================
@@ -195,17 +247,19 @@ p {
 }
 
 .painel-rotulo {
-  font-size: 14px;
-  font-weight: 600;
+  font-family: var(--fonte-mono);
+  font-size: 13px;
+  font-weight: 500;
   color: var(--texto-apoio);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
 }
 
 .painel-numero-total {
-  margin-top: 8px;
-  font-size: 72px;
-  font-weight: 800;
+  font-family: var(--fonte-mono);
+  margin-top: 10px;
+  font-size: 68px;
+  font-weight: 700;
   line-height: 1;
   letter-spacing: -0.03em;
 }
@@ -217,8 +271,9 @@ p {
 }
 
 .painel-numero {
-  font-size: 48px;
-  font-weight: 800;
+  font-family: var(--fonte-mono);
+  font-size: 46px;
+  font-weight: 700;
   line-height: 1;
   letter-spacing: -0.03em;
 }
@@ -227,9 +282,8 @@ p {
   margin-top: 10px;
 }
 
-/* A cor de cada etapa aparece no número. O design.md reserva estas cores
-   para as etiquetas de etapa — aqui elas identificam a mesma etapa, em
-   números grandes, sem virar fundo colorido. */
+/* A cor de cada etapa aparece no número — é o que identifica a etapa,
+   sem virar fundo colorido. */
 .numero-novo {
   color: var(--etapa-novo);
 }
@@ -263,7 +317,7 @@ p {
 }
 
 /* ==========================================================================
-   Tela de login
+   Telas de fora do sistema: login e cadastro
    ========================================================================== */
 
 .pagina-login {
@@ -368,6 +422,7 @@ p {
 .botao-link {
   display: inline-block;
   margin-top: 8px;
+  color: var(--sobre-cor-cheia);
   text-align: center;
   text-decoration: none;
 }
@@ -389,7 +444,7 @@ p {
 
 .etiqueta-comum {
   color: var(--texto-apoio);
-  border-color: var(--borda);
+  border-color: var(--texto-apoio);
 }
 
 .marca-voce {
@@ -426,11 +481,13 @@ p {
   color: var(--texto-apoio);
 }
 
+/* O campo é mais escuro que a superfície em que está: no escuro, o que
+   recebe digitação afunda em vez de subir. */
 .campo input {
   font-family: inherit;
   font-size: 16px;
   color: var(--texto);
-  background-color: var(--superficie);
+  background-color: var(--fundo);
   border: 1px solid var(--borda);
   border-radius: var(--raio);
   padding: 12px 14px;
@@ -467,7 +524,7 @@ p {
   font-family: inherit;
   font-size: 16px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--sobre-cor-cheia);
   background-color: var(--destaque);
   border: 1px solid var(--destaque);
   border-radius: var(--raio);
@@ -510,7 +567,7 @@ p {
   border-color: var(--texto-apoio);
 }
 
-/* Botão de ação destrutiva (usa a cor de erro, fora do design.md) */
+/* Botão de ação destrutiva */
 .botao-perigo {
   background-color: var(--erro);
   border-color: var(--erro);
@@ -526,7 +583,7 @@ p {
    ========================================================================== */
 
 .secao-lista {
-  margin-top: 56px;
+  margin-top: 40px;
 }
 
 .secao-lista h2 {
@@ -578,6 +635,11 @@ p {
   text-decoration: underline;
 }
 
+/* O contador de anotações é número: vai na monoespaçada. */
+.contador {
+  font-family: var(--fonte-mono);
+}
+
 .contato-nome {
   font-size: 17px;
   font-weight: 700;
@@ -589,11 +651,12 @@ p {
   color: var(--texto-apoio);
 }
 
-/* Etiqueta de etapa — único lugar onde as cores do funil aparecem */
+/* Etiqueta de etapa — etiqueta técnica, monoespaçada */
 .etiqueta {
   flex-shrink: 0;
+  font-family: var(--fonte-mono);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   padding: 5px 12px;
   border: 1px solid;
   border-radius: var(--raio);
@@ -621,9 +684,9 @@ p {
    definida na classe do elemento pai. */
 .seletor-etapa select {
   appearance: none;
-  font-family: inherit;
+  font-family: var(--fonte-mono);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   color: currentColor;
   background: none;
   border: 1px solid currentColor;
@@ -686,8 +749,8 @@ p {
    ========================================================================== */
 
 .anotacoes {
-  /* O tom quente do fundo separa a área aberta do cartão branco,
-     sem precisar de sombra nem de cor nova. */
+  /* Mais escuro que a lista: a área aberta afunda, em vez de subir com
+     sombra — que no escuro não apareceria de qualquer jeito. */
   background-color: var(--fundo);
   border-top: 1px solid var(--borda);
   padding: 24px;
@@ -721,9 +784,11 @@ p {
   gap: 16px;
 }
 
+/* Carimbo de tempo: monoespaçada */
 .anotacao-data {
-  font-size: 13px;
-  font-weight: 600;
+  font-family: var(--fonte-mono);
+  font-size: 12px;
+  font-weight: 500;
   color: var(--texto-apoio);
 }
 
@@ -765,7 +830,7 @@ p {
   font-size: 16px;
   line-height: 1.5;
   color: var(--texto);
-  background-color: var(--superficie);
+  background-color: var(--fundo);
   border: 1px solid var(--borda);
   border-radius: var(--raio);
   padding: 12px 14px;
@@ -818,21 +883,22 @@ p {
    Janela de confirmação
    ========================================================================== */
 
+/* Flutua por cima de tudo: usa a superfície elevada, mais clara. */
 .confirmacao {
   max-width: 440px;
   width: calc(100% - 40px);
   margin: auto;
-  background-color: var(--superficie);
+  background-color: var(--superficie-elevada);
   border: 1px solid var(--borda);
   border-radius: var(--raio);
   padding: 28px;
   color: var(--texto);
 }
 
-/* O véu atrás da janela é o próprio grafite do texto, transparente.
-   Sem desfoque: o design.md proíbe efeito de vidro. */
+/* O véu atrás da janela escurece o resto. Sem desfoque: o design.md
+   proíbe efeito de vidro. */
 .confirmacao::backdrop {
-  background-color: rgba(23, 24, 28, 0.45);
+  background-color: rgba(3, 6, 11, 0.7);
 }
 
 .confirmacao h3 {
@@ -855,6 +921,11 @@ p {
   justify-content: flex-end;
   gap: 12px;
   margin-top: 26px;
+}
+
+/* Dentro da janela elevada, o botão de recuo acompanha o tom. */
+.confirmacao .botao-secundario {
+  background-color: var(--superficie-elevada);
 }
 
 /* ==========================================================================
@@ -921,16 +992,47 @@ p {
 }
 
 /* ==========================================================================
-   Telas estreitas
+   Telas estreitas — a navegação lateral vira uma faixa horizontal
+   logo abaixo do cabeçalho. Sem menu que abre e fecha.
    ========================================================================== */
 
-@media (max-width: 640px) {
+@media (max-width: 880px) {
+  .app-corpo {
+    flex-direction: column;
+  }
+
+  .lateral {
+    width: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--borda);
+    padding: 10px 12px;
+    /* Se os itens não couberem, a faixa rola de lado em vez de quebrar. */
+    overflow-x: auto;
+  }
+
+  .lateral-nav {
+    position: static;
+    flex-direction: row;
+    gap: 6px;
+  }
+
+  .lateral-link {
+    white-space: nowrap;
+  }
+
   .pagina {
-    padding: 48px 20px 80px;
+    padding: 36px 20px 80px;
   }
 
   .cabecalho h1 {
-    font-size: 34px;
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 640px) {
+  .cabecalho-app {
+    padding: 0 16px;
+    gap: 12px;
   }
 
   .formulario {
@@ -948,6 +1050,6 @@ p {
   }
 
   .painel-numero-total {
-    font-size: 56px;
+    font-size: 52px;
   }
 }

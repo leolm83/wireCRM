@@ -1,6 +1,6 @@
 import { supabase } from "@/lib/supabase";
 
-// Página inicial: o funil em números.
+// Dashboard: o funil em números.
 export const dynamic = "force-dynamic";
 
 // As quatro etapas, na ordem do funil. A classe traz a cor de cada uma,
@@ -22,7 +22,7 @@ export default async function PaginaInicial() {
     return (
       <main className="pagina">
         <header className="cabecalho">
-          <h1>WireCRM</h1>
+          <h1>Dashboard</h1>
         </header>
         <div className="aviso">Não consegui buscar os números no banco.</div>
       </main>
@@ -42,7 +42,7 @@ export default async function PaginaInicial() {
   return (
     <main className="pagina">
       <header className="cabecalho">
-        <h1>WireCRM</h1>
+        <h1>Dashboard</h1>
         <p className="apoio">Onde está cada oportunidade agora.</p>
       </header>
 
