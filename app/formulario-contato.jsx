@@ -11,7 +11,7 @@ import { validarContato, formatarTelefone } from "@/lib/validacao";
 const CAMPOS_VAZIOS = { nome: "", email: "", telefone: "" };
 const TODOS_TOCADOS = { nome: true, email: true, telefone: true };
 
-export default function FormularioContato() {
+export default function FormularioContato({ aoSalvar }) {
   const [estado, acao, enviando] = useActionState(salvarContato, null);
 
   const [valores, setValores] = useState(CAMPOS_VAZIOS);
@@ -26,6 +26,8 @@ export default function FormularioContato() {
       setValores(CAMPOS_VAZIOS);
       setErros({});
       setTocados({});
+      // Quem abriu o formulário numa janela (o quadro do funil) fecha ela aqui.
+      aoSalvar?.();
     } else if (estado?.erros) {
       setErros(estado.erros);
       setTocados(TODOS_TOCADOS);

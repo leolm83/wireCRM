@@ -218,6 +218,14 @@ p {
   margin-bottom: 40px;
 }
 
+/* Título à esquerda, ação da tela à direita */
+.cabecalho-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
 .cabecalho h1 {
   font-size: 40px;
   font-weight: 800;
@@ -992,11 +1000,149 @@ p {
 }
 
 /* ==========================================================================
+   Quadro do funil — uma coluna por etapa, um cartão por contato
+   ========================================================================== */
+
+.quadro {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+/* Enquanto grava a etapa, o quadro esmaece — sinal de que ainda não terminou. */
+.quadro.salvando {
+  opacity: 0.6;
+}
+
+.quadro-erro {
+  margin-bottom: 16px;
+}
+
+.coluna {
+  background-color: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  display: flex;
+  flex-direction: column;
+  min-height: 180px;
+}
+
+/* A coluna sob o cartão que está sendo arrastado se acende. */
+.coluna.alvo {
+  border-color: var(--destaque);
+}
+
+.coluna-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--borda);
+}
+
+/* Etiqueta técnica: o nome da etapa, na cor da etapa. */
+.coluna-nome {
+  font-family: var(--fonte-mono);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.coluna-contador {
+  font-family: var(--fonte-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--texto-apoio);
+  flex-shrink: 0;
+}
+
+.coluna-corpo {
+  flex: 1;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* O cartão afunda dentro da coluna, do mesmo jeito que o campo afunda
+   dentro do formulário. */
+.cartao-contato {
+  background-color: var(--fundo);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 12px 14px;
+}
+
+/* Só quem pode mover é que vê a mão de arrastar. */
+.cartao-contato[draggable="true"] {
+  cursor: grab;
+}
+
+.cartao-contato[draggable="true"]:hover {
+  border-color: var(--texto-apoio);
+}
+
+/* O cartão na mão fica apagado: o que interessa agora é onde ele vai cair. */
+.cartao-contato.arrastando {
+  opacity: 0.4;
+}
+
+.cartao-nome {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.cartao-email {
+  margin-top: 2px;
+  font-size: 13px;
+  color: var(--texto-apoio);
+  /* Email comprido quebra em vez de esticar a coluna. */
+  overflow-wrap: anywhere;
+}
+
+/* Há quanto tempo o contato entrou: informação técnica, monoespaçada. */
+.cartao-tempo {
+  margin-top: 8px;
+  font-family: var(--fonte-mono);
+  font-size: 11px;
+  color: var(--texto-apoio);
+}
+
+/* Coluna sem ninguém, e a coluna ainda carregando. A linha tracejada
+   avisa que ali cabe um cartão. */
+.coluna-vazia,
+.coluna-carregando {
+  border: 1px dashed var(--borda);
+  border-radius: var(--raio);
+  padding: 18px 12px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--texto-apoio);
+}
+
+/* A janela do cadastro é mais larga que a de confirmação: o formulário
+   tem duas colunas de campos. */
+.janela-contato {
+  max-width: 520px;
+}
+
+/* ==========================================================================
    Telas estreitas — a navegação lateral vira uma faixa horizontal
    logo abaixo do cabeçalho. Sem menu que abre e fecha.
    ========================================================================== */
 
 @media (max-width: 880px) {
+  /* As colunas guardam largura de leitura e o quadro rola de lado. */
+  .quadro {
+    grid-template-columns: repeat(4, 240px);
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+
   .app-corpo {
     flex-direction: column;
   }
