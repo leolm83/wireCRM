@@ -56,7 +56,9 @@ export default async function PaginaDeUsuarios() {
                     <p className="contato-nome">{usuario.usuario}</p>
                     <p className="contato-dados">
                       Pediu acesso em{" "}
-                      {FORMATO_DE_DATA.format(new Date(usuario.criado_em))}
+                      <span className="mono">
+                        {FORMATO_DE_DATA.format(new Date(usuario.criado_em))}
+                      </span>
                     </p>
                   </div>
                   <div className="contato-direita">
@@ -85,7 +87,9 @@ export default async function PaginaDeUsuarios() {
                   </p>
                   <p className="contato-dados">
                     Desde{" "}
-                    {FORMATO_DE_DATA.format(new Date(usuario.criado_em))}
+                    <span className="mono">
+                      {FORMATO_DE_DATA.format(new Date(usuario.criado_em))}
+                    </span>
                   </p>
                 </div>
                 <div className="contato-direita">

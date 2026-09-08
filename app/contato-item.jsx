@@ -39,7 +39,13 @@ export default function ContatoItem({ contato, ehAdmin }) {
             onClick={() => setAberto(!aberto)}
             aria-expanded={aberto}
           >
-            {aberto ? "Fechar" : `Anotações (${anotacoes.length})`}
+            {aberto ? (
+              "Fechar"
+            ) : (
+              <>
+                Anotações <span className="contador">({anotacoes.length})</span>
+              </>
+            )}
           </button>
         </div>
       </div>
