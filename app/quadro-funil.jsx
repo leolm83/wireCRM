@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState, useTransition } from "react";
 import { mudarEtapa } from "./acoes";
 import FormularioContato from "./formulario-contato";
@@ -151,9 +152,19 @@ export default function QuadroFunil({ contatos, ehAdmin }) {
                         setColunaAlvo(null);
                       }}
                     >
-                      <p className="cartao-nome">{cartao.nome}</p>
-                      <p className="cartao-email">{cartao.email}</p>
-                      <p className="cartao-tempo">{cartao.desde}</p>
+                      {/* O cartão inteiro leva à página do contato.
+                          draggable={false} no link é obrigatório: sem ele o
+                          navegador arrasta o endereço do link em vez do
+                          cartão, e o solto na coluna não acontece. */}
+                      <Link
+                        href={`/contatos/${cartao.id}`}
+                        className="cartao-link"
+                        draggable={false}
+                      >
+                        <p className="cartao-nome">{cartao.nome}</p>
+                        <p className="cartao-email">{cartao.email}</p>
+                        <p className="cartao-tempo">{cartao.desde}</p>
+                      </Link>
                     </article>
                   ))
                 )}

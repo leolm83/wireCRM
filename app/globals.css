@@ -1077,8 +1077,17 @@ p {
   padding: 12px 14px;
 }
 
-/* Só quem pode mover é que vê a mão de arrastar. */
-.cartao-contato[draggable="true"] {
+/* O cartão inteiro é o link para a página do contato. */
+.cartao-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Onde dá para arrastar, a mão de arrastar vence a de clicar. */
+.cartao-contato[draggable="true"],
+.cartao-contato[draggable="true"] .cartao-link {
   cursor: grab;
 }
 
@@ -1131,11 +1140,141 @@ p {
 }
 
 /* ==========================================================================
+   Gráfico de distribuição do funil — barras desenhadas com CSS,
+   sem biblioteca, sem imagem e sem animação
+   ========================================================================== */
+
+.grafico {
+  background-color: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.grafico-linha {
+  display: grid;
+  grid-template-columns: 108px 1fr 92px;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Etiqueta técnica: o nome da etapa, na cor da etapa. */
+.grafico-etapa {
+  font-family: var(--fonte-mono);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* O trilho é o total: mostra o quanto aquela etapa não ocupa.
+   O overflow arredonda a ponta da barra sem a barra precisar de raio. */
+.grafico-trilho {
+  height: 12px;
+  background-color: var(--fundo);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  overflow: hidden;
+}
+
+.grafico-barra {
+  height: 100%;
+}
+
+.barra-novo {
+  background-color: var(--etapa-novo);
+}
+
+.barra-em-contato {
+  background-color: var(--etapa-em-contato);
+}
+
+.barra-proposta {
+  background-color: var(--etapa-proposta);
+}
+
+.barra-cliente {
+  background-color: var(--etapa-cliente);
+}
+
+/* O número escrito ao lado: mesmo a menor barra possível continua legível. */
+.grafico-valor {
+  font-family: var(--fonte-mono);
+  font-size: 13px;
+  color: var(--texto-apoio);
+  text-align: right;
+}
+
+/* ==========================================================================
+   Linha de contato que é link (últimos cadastrados, no dashboard)
+   ========================================================================== */
+
+.contato-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.contato-link:hover {
+  background-color: var(--superficie-elevada);
+}
+
+/* Os cantos da primeira e da última linha acompanham a caixa da lista. */
+.lista-contatos > .contato-link:first-child {
+  border-top-left-radius: var(--raio);
+  border-top-right-radius: var(--raio);
+}
+
+.lista-contatos > .contato-link:last-child {
+  border-bottom-left-radius: var(--raio);
+  border-bottom-right-radius: var(--raio);
+}
+
+/* Há quanto tempo entrou: informação técnica, monoespaçada. */
+.contato-tempo {
+  font-family: var(--fonte-mono);
+  font-size: 12px;
+  color: var(--texto-apoio);
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   Página do contato
+   ========================================================================== */
+
+.dados-contato {
+  margin: 22px 0 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+}
+
+.dado dt {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--texto-apoio);
+}
+
+.dado dd {
+  margin: 6px 0 0;
+  font-size: 16px;
+  overflow-wrap: anywhere;
+}
+
+/* ==========================================================================
    Telas estreitas — a navegação lateral vira uma faixa horizontal
    logo abaixo do cabeçalho. Sem menu que abre e fecha.
    ========================================================================== */
 
 @media (max-width: 880px) {
+  /* Menos espaço para o nome e para o número: a barra continua a maior
+     parte da linha. */
+  .grafico-linha {
+    grid-template-columns: 92px 1fr 76px;
+    gap: 10px;
+  }
+
   /* As colunas guardam largura de leitura e o quadro rola de lado. */
   .quadro {
     grid-template-columns: repeat(4, 240px);
@@ -1181,7 +1320,8 @@ p {
     gap: 12px;
   }
 
-  .formulario {
+  .formulario,
+  .dados-contato {
     grid-template-columns: 1fr;
   }
 

@@ -1,22 +1,35 @@
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import { tempoDesde } from "@/lib/tempo";
 
-// Dashboard: o funil em números.
+// Dashboard: o funil em números, em distribuição, e quem entrou por último.
+//
+// "force-dynamic" faz esta tela ser montada a cada visita, então ela já
+// nasce com o número certo. As ações que gravam no banco também mandam o
+// Next redesenhar as telas de dentro do sistema — é por isso que mudar uma
+// etapa no Kanban aparece aqui sem ninguém recarregar nada.
 export const dynamic = "force-dynamic";
 
-// As quatro etapas, na ordem do funil. A classe traz a cor de cada uma,
+// As quatro etapas, na ordem do funil. As classes trazem a cor de cada uma,
 // definida no design.md e escrita no globals.css.
 const ETAPAS = [
-  { chave: "novo", classe: "numero-novo" },
-  { chave: "em contato", classe: "numero-em-contato" },
-  { chave: "proposta", classe: "numero-proposta" },
-  { chave: "cliente", classe: "numero-cliente" },
+  { chave: "novo", numero: "numero-novo", barra: "barra-novo", etiqueta: "etapa-novo" },
+  { chave: "em contato", numero: "numero-em-contato", barra: "barra-em-contato", etiqueta: "etapa-em-contato" },
+  { chave: "proposta", numero: "numero-proposta", barra: "barra-proposta", etiqueta: "etapa-proposta" },
+  { chave: "cliente", numero: "numero-cliente", barra: "barra-cliente", etiqueta: "etapa-cliente" },
 ];
 
+const QUANTOS_RECENTES = 5;
+
 export default async function PaginaInicial() {
-  // Traz só a coluna da etapa e conta aqui. Uma consulta em vez de cinco,
-  // e a coluna é pequena — se um dia forem milhares de contatos, vale
-  // trocar por uma contagem feita pelo banco.
-  const { data, error } = await supabase.from("contatos").select("etapa");
+  // Uma consulta serve as três áreas: a contagem, o gráfico e a lista dos
+  // últimos. São poucos campos — se um dia forem milhares de contatos, vale
+  // trocar a contagem por uma feita pelo banco.
+  const { data, error } = await supabase
+    .from("contatos")
+    .select("id, nome, email, etapa, criado_em")
+    .order("criado_em", { ascending: false })
+    .order("id", { ascending: false });
 
   if (error) {
     return (
@@ -39,6 +52,10 @@ export default async function PaginaInicial() {
     ).length;
   }
 
+  // A consulta já vem do mais novo para o mais velho, então os primeiros
+  // da lista são os últimos cadastrados.
+  const recentes = contatos.slice(0, QUANTOS_RECENTES);
+
   return (
     <main className="pagina">
       <header className="cabecalho">
@@ -55,13 +72,94 @@ export default async function PaginaInicial() {
         <div className="painel-etapas">
           {ETAPAS.map((etapa) => (
             <div key={etapa.chave} className="painel-etapa">
-              <p className={`painel-numero ${etapa.classe}`}>
+              <p className={`painel-numero ${etapa.numero}`}>
                 {contagem[etapa.chave]}
               </p>
               <p className="painel-rotulo">{etapa.chave}</p>
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="secao-lista">
+        <h2>Distribuição por etapa</h2>
+
+        {total === 0 ? (
+          <div className="aviso">
+            Sem contatos ainda — o gráfico aparece quando o primeiro entrar.
+          </div>
+        ) : (
+          <div className="grafico">
+            {ETAPAS.map((etapa) => {
+              const quantos = contagem[etapa.chave];
+              const parte = Math.round((quantos / total) * 100);
+
+              return (
+                <div key={etapa.chave} className="grafico-linha">
+                  <span className={`grafico-etapa ${etapa.etiqueta}`}>
+                    {etapa.chave}
+                  </span>
+
+                  {/* A barra é uma div com largura em porcentagem: sem
+                      biblioteca de gráfico, sem imagem, sem animação. */}
+                  <div className="grafico-trilho">
+                    <div
+                      className={`grafico-barra ${etapa.barra}`}
+                      style={{ width: `${parte}%` }}
+                    />
+                  </div>
+
+                  {/* O número fica escrito ao lado: mesmo a barra menor
+                      possível continua legível. */}
+                  <span className="grafico-valor">
+                    {quantos} · {parte}%
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </section>
+
+      <section className="secao-lista">
+        <h2>Últimos contatos cadastrados</h2>
+
+        {recentes.length === 0 ? (
+          <div className="aviso">
+            Nenhum contato ainda. Cadastre o primeiro na área de Contatos.
+          </div>
+        ) : (
+          <div className="lista-contatos">
+            {recentes.map((contato) => {
+              const etapa = ETAPAS.find((e) => e.chave === contato.etapa);
+
+              return (
+                <Link
+                  key={contato.id}
+                  href={`/contatos/${contato.id}`}
+                  className="contato contato-link"
+                >
+                  <div className="contato-linha">
+                    <div className="contato-info">
+                      <p className="contato-nome">{contato.nome}</p>
+                      <p className="contato-dados">
+                        {contato.email || "Sem email"}
+                      </p>
+                    </div>
+                    <div className="contato-direita">
+                      <span className={`etiqueta ${etapa?.etiqueta ?? ""}`}>
+                        {contato.etapa}
+                      </span>
+                      <span className="contato-tempo">
+                        {tempoDesde(contato.criado_em)}
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </section>
     </main>
   );
